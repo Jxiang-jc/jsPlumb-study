@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>5.给连接加上样式</title>
+  <style>
+    #diagramContainer {
+      padding: 20px;
+      width: 80%;
+      height: 400px;
+      border: 1px solid gray;
+    }
+
+    .item {
+      position: absolute;
+      height: 80px;
+      width: 80px;
+      border: 1px solid blue;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="diagramContainer">
+    <div id="item_left" class="item"></div>
+    <div id="item_right" class="item" style="left:150px;"></div>
+  </div>
+  <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsplumb@2.8.0/dist/js/jsplumb.min.js"></script>
+
+  <script>
+    /* global jsPlumb */
+    jsPlumb.ready(function () {
+        var common = {
+            endpoint: 'Rectangle',
+            connector: ['Bezier'],
+            anchor: ['Left', 'Right']
+        }
+        
+        jsPlumb.connect({
+            source: 'item_left',
+            target: 'item_right',
+            paintStyle: {stroke: 'lightgray', strokeWidth: 3},
+            endpointStyle: {fill: 'lightgray', outlineStroke: 'red', outlineWidth: 2},
+            overlays: [
+                ['Arrow',{width: 12, length: 12, location: 0.5}],
+                ['Diamond',{width: 12, length: 12, location: 0.8}],
+                [ "Label", {label:"加油", id:"label", location: 0.2}],
+                ["Custom", {
+                  create:function(component) {
+                    return $("<select id='myDropDown'><option value='foo'>foo</option><option value='bar'>bar</option></select>");
+                  },
+                  location:0.7,
+                  id:"customOverlay"
+                }]
+              ]
+        }, common)
+
+
+        // 动态创建overlays
+        // var conn = jsPlumb.connect({
+        //     source:"item_left", 
+        //     target:"item_right"
+        // });  
+
+        // conn.setLabel(function(c) {
+        //     var s = new Date();
+        //     return s.getTime() + "milliseconds have elapsed since 01/01/1970";
+        // })
+        //     console.log("Label is now", conn.getLabel()
+        // )   
+        
+        jsPlumb.draggable('item_left')
+        jsPlumb.draggable('item_right')
+    })
+  </script>
+</body>
+
+</html>

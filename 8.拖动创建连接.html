@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    #diagramContainer {
+      padding: 20px;
+      width: 80%;
+      height: 200px;
+      border: 1px solid gray;
+    }
+
+    .item {
+      height: 80px;
+      width: 80px;
+      border: 1px solid blue;
+      float: left;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="diagramContainer">
+    <div id="item_left" class="item"></div>
+    <div id="item_right" class="item" style="margin-left:50px;"></div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jsplumb@2.8.0/dist/js/jsplumb.min.js"></script>
+
+  <script>
+    /* global jsPlumb */
+    jsPlumb.ready(function () {
+        jsPlumb.setContainer('diagramContainer')
+
+        var common = {
+            isSource: true,
+            isTarget: true,
+            connector: ['Straight'],
+            maxConnections: -1,
+        }
+
+        jsPlumb.addEndpoint('item_left', {
+            anchors: ['Right']
+        }, common)
+
+        jsPlumb.addEndpoint('item_right', {
+            anchor: 'Left'
+        }, common)
+
+        jsPlumb.addEndpoint('item_right', {
+            anchor: 'Right'
+        }, common)
+
+        jsPlumb.addEndpoint('item_right', {
+            anchor: 'Top'
+        }, common)
+
+        jsPlumb.addEndpoint('item_right', {
+            anchor: 'Bottom'
+        }, common)
+
+        // 一般来说拖动创建的链接，可以再次拖动，让链接断开。如果不想触发这种行为，可以设置。
+
+        /* 
+            jsPlumb.importDefaults({
+                ConnectionsDetachable: false
+            })
+         */
+    })
+  </script>
+</body>
+
+</html>

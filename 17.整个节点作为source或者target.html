@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>17.整个节点作为source或者target</title>
+    <style>
+        #diagramContainer {
+            padding: 20px;
+            width: 80%;
+            height: 200px;
+            border: 1px solid gray;
+        }
+
+        .item {
+            position: absolute;
+            height: 100px;
+            width: 100px;
+            border: 1px solid blue;
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="diagramContainer">
+        <div id="A" class="item" style="top:50px;left:50px">A</div>
+        <div id="B" class="item" style="top:50px;left:450px">B</div>
+    </div>
+    <script src="./lib/jquery.js"></script>
+    <script src="./lib/jquery-ui.js"></script>
+    <script src="./lib/jquery.jsplumb.js"></script>
+
+    <script>
+        window.jsPlumb.ready(function () {
+            var jsPlumb = window.jsPlumb
+
+            jsPlumb.makeSource('A', {
+                endpoint: 'Dot',
+                anchor: 'Perimeter'
+            })
+
+            jsPlumb.makeTarget('B', {
+                endpoint: 'Rectangle',
+                anchor: 'Continuous'
+            })
+
+            jsPlumb.draggable('A')
+            jsPlumb.draggable('B')
+        })
+
+        // jsPlumb的锚点分为4类
+        // Static 静态 固定位置的锚点
+        // Dynamic jsPlumb自动选择合适的锚点，动态锚点
+        // Perimeter 边缘锚点，会根据节点形状去改变位置
+        // Continuous 根据节点位置，自动调整位置的锚点
+    </script>
+</body>
+
+</html>

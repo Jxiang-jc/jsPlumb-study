@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>16.连接前的检查，判断是否建立连接</title>
+    <style>
+        #diagramContainer {
+            padding: 20px;
+            width: 80%;
+            height: 200px;
+            border: 1px solid gray;
+        }
+
+        .item {
+            height: 80px;
+            width: 80px;
+            border: 1px solid blue;
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="diagramContainer">
+        <div id="item_left" class="item"></div>
+        <div id="item_right" class="item" style="margin-left:50px;"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/jsplumb@2.8.0/dist/js/jsplumb.min.js"></script>
+
+    <script>
+        /* global jsPlumb */
+        jsPlumb.ready(function () {
+            jsPlumb.setContainer('diagramContainer')
+
+            var common = {
+                isSource: true,
+                isTarget: true,
+                connector: ['Straight']
+            }
+
+            jsPlumb.addEndpoint('item_left', {
+                anchors: ['Right']
+            }, common)
+
+            jsPlumb.addEndpoint('item_right', {
+                anchor: 'Left'
+            }, common)
+
+            jsPlumb.bind('beforeDrop', (info) => {
+                var a = 2 
+                var b = 1
+                if(a < b) {
+                    console.log('连接成功')
+                    return true
+                } else {
+                    console.log('连接失败')
+                    return false
+                }
+            })
+
+        })
+    </script>
+</body>
+
+</html>

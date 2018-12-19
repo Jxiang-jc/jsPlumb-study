@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>getting_started2</title>
+    <style>
+    
+        .item{
+            position: absolute;
+            border: 1px solid black;
+            background-color: #ddddff;
+        }
+
+        #container {
+			border: 1px solid gray;
+			width: 500px;
+			height: 500px;
+		}
+
+		.title {
+			padding: 10px;
+			cursor: move;
+		}
+
+		.connect {
+			width: 100%;
+			height: 20px;
+			background-color: white;
+			cursor: pointer;
+		}
+    
+    </style>
+</head>
+<body>
+
+    <div id="container"></div>
+
+    <script src="../lib/jquery.js"></script>
+    <script src="../lib/jquery-ui.js"></script>
+    <!-- <script src="https://cdn.bootcss.com/jsPlumb/2.8.6/js/jsplumb.min.js"></script> -->
+    
+    <script src="../lib/jquery.jsplumb.js"></script>
+    <script>
+        jsPlumb.ready(function () {
+            // 这里我们告诉jsPlumb哪个DOM元素用作容器。jsPlumb会将所有DOM元素添加到此容器中。如果不指定此项，则所有DOM元素都将添加到文档正文的末尾。有时，这可能会导致奇怪的行为，因此最好始终指定容器
+            jsPlumb.setContainer($('#container'))
+
+            // 我们设置一个变量来跟踪状态数。这仅用于本演示，因此我们可以为每个div提供唯一的ID。在您的生产代码中，您需要找到一种更稳固的方法来为每个州生成id。我只在这里使用一个来保持这个演示简单。--》建议考虑uuid
+            var i = 0
+
+            $('#container').dblclick(function (e) {
+                // 双击创建一个新的div。
+                var newState = $('<div/>').attr('id', 'state' + i).addClass('item')
+
+                // 用户需要能够拖动状态，还需要从状态创建新连接。为了识别用户想要执行的这两个动作中的哪一个，我创建了两个div。标题div可用于拖动状态，而连接div可用于将状态连接到另一个状态。
+                var title = $('<div/>').addClass('title').text('State' + i)
+
+                var connect = $('<div/>').addClass('connect')
+
+                // 这里是获取用户点击时的位置，并且让newState动态生成时也在这个位置上。
+                newState.css({
+                    'top': e.pageY,
+                    'left': e.pageX
+                })
+
+                // 之后，我们将两个div添加到newState
+                newState.append(title)
+                newState.append(connect)
+
+                $('#container').append(newState)
+
+                // 把元素作为来源和目标
+                jsPlumb.makeTarget(newState, {
+                    anchor: 'Continuous'
+                })
+
+                /* 
+                    这里的情况是这样的。这里来源是选择了connect，是因为如果选择了newState，那么整个大的div就作为来源了，就无法拖拽了，因为会被默认为jsplumb的连接来源，自然就无法拖拽了
+                    之所以加了parent，是想告诉jsPlumb，我们确实希望来源是newState，而不是connect。
+                    
+                */
+                jsPlumb.makeSource(connect, {
+                    // parent: newState, 
+                    anchor: 'Continuous'
+                })
+                /* 
+                    jsPlumb的锚点分为四类:
+                        Static 静态 固定位置的锚点
+                        Dynamic jsPlumb自动选择合适的锚点，动态锚点
+                        Perimeter 边缘锚点，会根据节点形状去改变位置
+                        Continuous 根据节点位置，自动调整位置的锚点
+                */
+
+                jsPlumb.draggable(newState, {
+                    // 限制节点拖动范围
+                    containment: 'parent'
+                })
+
+                newState.dblclick(function (e) {
+                    console.log(e)
+                    jsPlumb.remove($(this))
+                    // $(this).remove()
+                    e.stopPropagation() // 如果不阻止的话会继续新生成newState
+                })
+
+                i++
+            })
+        })
+    </script>
+</body>
+</html>
