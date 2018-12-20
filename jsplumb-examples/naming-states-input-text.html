@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    #container {
+        position:relative;
+        width: 500px;
+        height: 500px;
+        border: 1px solid #ccc;
+        margin: 0 auto;
+    }
+
+    .item {
+        position: absolute;
+        border: 1px solid #ddd;
+        background-color: #58bc58;
+    }
+
+    .title {
+        padding: 10px;
+        cursor: move;
+    }
+
+    .connect {
+        width: 100%;
+        height: 20px;
+        background-color: #ddddff;
+        cursor: pointer;
+    }
+    .content {
+        width: 100%;
+        background-color: red;
+    }
+</style>
+
+<body>
+    <div id="container"></div>
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.bootcss.com/jsPlumb/2.8.6/js/jsplumb.min.js"></script>
+
+    <script>
+        jsPlumb.ready(function () {
+            var i = 0
+
+            // 双击生成
+            $('#container').dblclick(function (e) {
+                // 生成元素
+                creatState(e)
+                // 这里必须用eq(i),否则会出现一次连接多条线的情况出现
+                let newState = $('.item').eq(i) // 大盒子div
+                let connect = $('.item').find('.connect').eq(i) // 专门连接的div
+                let stateName = $('.item').find('input').eq(i) // input输入框
+
+                jsPlumb.makeTarget(newState, {
+                    anchor: 'Continuous'
+                })
+
+                jsPlumb.makeSource(connect, {
+                    parent: newState,
+                    anchor: 'Continuous'
+                })
+
+                jsPlumb.draggable(newState, { 
+                    containment: 'parent',
+                })
+
+                newState.dblclick(function (e) {
+                    jsPlumb.remove(this)
+                    e.stopPropagation()
+                })
+
+                stateName.keyup(function (e) {
+                    confirm(e)
+                })
+
+                newState.on('click', function (e) {
+                    // 再次点击显示编辑
+                    editor(e)
+                })
+
+                stateName.focus()
+
+                i++
+            })
+
+            function creatState(e) {
+                // 创建div
+                var newState = $('<div/>').attr('id', 'state' + i).addClass('item')
+
+                var title = $('<div/>').addClass('title')
+                var stateName = $('<input/>').attr('type', 'text')
+                var p = $('<p/>').css('display', 'none').addClass('content')
+
+                // input输入框放进title中
+                title.append(stateName)
+                title.append(p)
+
+                var connect = $('<div/>').addClass('connect')
+
+                // 因为相对父级元素,所有用了e.offset
+                // 如果是有滚动条的话,需要注意这里的变化
+                newState.css({
+                    'top': e.offsetY,
+                    'left': e.offsetX
+                })
+
+                newState.append(title)
+                newState.append(connect)
+
+                // 写进页面
+                $('#container').append(newState)
+
+            }
+
+            // 编辑input
+            function editor (event) {
+                // 如果点击按钮等于p标签
+                if (event.target.className == 'content' ) {
+                    var $e = $(event.target)
+                    
+                    // 切换p标签和input标签
+                    $e.css('display', 'none')
+                    $e.siblings('input').css('display', 'block')
+
+                    // 聚焦
+                    $e.siblings('input').focus()
+
+                    // 回车确认
+                    $e.keyup(function (e) {
+                        confirm(e)
+                    })
+                } else {
+                    return false
+                }
+            }
+
+            // 回车确认
+            function confirm (event) {
+                if (event.keyCode === 13) {
+                    // 把input的值赋给p标签
+                    $(event.target).next().css('display', 'block').text(event.target.value)
+
+                    // 隐藏input输入框
+                    $(event.target).css('display', 'none')
+                }
+            }
+        })
+
+    </script>
+
+</body>
+
+</html>
