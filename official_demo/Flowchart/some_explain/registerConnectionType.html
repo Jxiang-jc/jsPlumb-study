@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #A,
+        #B {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 1px solid #ccc;
+            background: chocolate;
+        }
+
+        #B {
+            left: 200px;
+            background-color: #ddddff;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="A"></div>
+        <div id="B"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/jsplumb@2.8.0/dist/js/jsplumb.min.js"></script>
+    <script>
+        jsPlumb.ready(function () {
+            // 第一种方式
+            /*     jsPlumb.registerConnectionType("example", {
+                    paintStyle: {
+                        stroke: "#58bc58",
+                        strokeWidth: 10
+                    },
+                });
+                var c = jsPlumb.connect({
+                    source: "A",
+                    target: "B"
+                });
+                c.bind("click", function () {
+                    c.setType("example")
+                }); 
+            */
+
+            // 第二种方式
+            jsPlumb.registerConnectionTypes({
+                "basic": {
+                    paintStyle: {
+                        stroke: "blue",
+                        strokeWidth: 7
+                    }
+                },
+                "selected": {
+                    paintStyle: {
+                        stroke: "red",
+                        strokeWidth: 5
+                    }
+                }
+            });
+            var c = jsPlumb.connect({
+                source: "A",
+                target: "B"
+            });
+            c.bind("click", function () {
+                c.toggleType("selected");
+            });
+        })
+    </script>
+</body>
+
+</html>

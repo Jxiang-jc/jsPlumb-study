@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>saving-a-jsplumb-graph-1</title>
+    <style type="text/css">
+        .item {
+            position: absolute;
+            border: 1px solid black;
+            background-color: #ddddff;
+        }
+
+        #container {
+            border: 1px solid gray;
+            width: 500px;
+            height: 500px;
+        }
+
+        .title {
+            padding: 10px;
+            cursor: move;
+        }
+
+        .connect {
+            width: 100%;
+            height: 20px;
+            background-color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>有BUG,还未解决.就是当我们连接上以后,再去拖动,会出现线与元素分离的现状,等待我解决</h1>
+    <h2>2:当连接的目标未选择时,那么,我应该判断,提示用户并删除该连接,用remove可以删除,但会把整个元素也删除,体验感不好</h2>
+    <div id="container"></div>
+    
+    <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.bootcss.com/jsPlumb/2.8.6/js/jsplumb.min.js"></script>
+   
+    
+    <script>
+        var options = ['To do', 'In progress', 'Done']
+
+        jsPlumb.ready(function () {
+            var i = 0
+
+            // 把当前的div的id及位置存入后台
+            function saveState (state) {
+                // 该网址已失效
+                $.post('http://www.example.com/saveState', {
+                    id: $(state).attr('id'),
+                    top: $(state).css('top'),
+                    left: $(state).css('left')
+                }, function (data) {
+                    console.log(data)
+                })
+            }
+
+            $('#container').dblclick(function (e) {
+                var newState = $('<div/>').attr('id', 'state' + i).addClass('item')
+
+                var title = $('<div/>').addClass('title')
+                var stateName = $('<select/>')
+                stateName.append($('<option></option>')
+                    .attr('value', '#')
+                    .text('Select an option'))
+
+                $.each(options, (index, value) => {
+                    if ($('#container').find('#state-' + index).length === 0) {
+                        stateName.append($('<option></option>')
+                            .attr('value', index)  
+                            .text(value))
+                    }
+                })
+
+                title.append(stateName)
+
+                var connect = $('<div/>').addClass('connect')
+
+                newState.css({
+                    'top': e.pageY,
+                    'left': e.pageX 
+                })
+
+                // 写进页面
+                newState.append(title)
+                newState.append(connect)
+
+                $('#container').append(newState)
+
+                jsPlumb.draggable(newState, {
+                    containment: 'parent',
+                    // stop是一个可以添加到配置对象的参数draggable。它包含一个方法，只要用户停止拖动该对象，就会调用该方法
+                    stop: function (event) { 
+                        // 由于我们不想保存用户尚未选择名称的状态，因此我们需要对此进行检查。这样做的简单方法是检查状态是否div包含有 select。如果是这样，这意味着用户尚未选择名称，我们不应该保存状态的位置。
+                        if($(event.target).find('select').length === 0 ) {
+                            saveState(event.target)
+                        }
+                    }
+                })
+
+                newState.dblclick(function (e) {
+                    jsPlumb.remove(this)
+                    e.stopPropagation()
+                })
+
+                // stateName === <select/>
+                stateName.change(function (e) {
+                    if (this.value !== '#') {
+                        var state = $(this).closest('.item')
+                        // :selected 选择器选取被选择的 <option> 元素。
+                        state.children('.title').text($(this).find(':selected').text())
+                        
+                        // <select><option value="xx"/><select>,
+                        // 这种格式可以直接通过 $('select').val() (原生一样),来获取到当前option的value值,很神奇
+                        state.attr('id', 'state-' + this.value)
+                        $("select option[value='" + this.value + "']").remove()
+                        
+                        // 之所以在这里面才连接,是因为确保我们不会无意中保存与尚未拥有名称的状态的连接,这样用户只有在选择状态以后才能连接
+                        jsPlumb.makeTarget(newState, {
+                            anchor: 'Continuous'
+                        })
+
+                        jsPlumb.makeSource(connect, {
+                            parent: newState,// 为了告知jsplumb来源是newState
+                            anchor: 'Continuous'
+                        })
+
+                        saveState(state)
+                    }
+                })
+
+                stateName.focus()
+
+                i++
+            })
+
+            // 这里是在创建时保存来源于与目标
+            jsPlumb.bind('connection', function (info) {
+                // console.log($(info.target).find('select').val())
+                console.log(info.targetId)
+                if ($(info.target).find('select').val() === '#') {
+                    alert ('请选择以后在连接')
+                    
+                    jsPlumb.deleteEndpoint(info.targetId);
+                }
+
+                // 此网址已失效
+                $.post('http://www.example.com/saveConnection', {
+                    from: info.sourceId,
+                    to: info.targetId
+                })
+            })
+
+        })
+    </script>
+</body>
+
+</html>

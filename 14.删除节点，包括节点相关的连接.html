@@ -53,7 +53,9 @@
 
         console.log('3秒后移除左边节点包括它的连线')
         setTimeout(()=>{
-            jsPlumb.remove('item_left')
+            // jsPlumb.remove('item_left')
+            jsPlumb.deleteEndpoint("item_left");
+            console.log(888)
         },3000)
     })
   </script>
