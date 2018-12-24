@@ -1,6 +1,7 @@
 jsPlumb.ready(function () {
 
     // setup some defaults for jsPlumb.
+    // 
     var instance = jsPlumb.getInstance({
         Endpoint: ["Dot", {
             radius: 2
