@@ -129,7 +129,7 @@
                     },
                     strokeWidth: 5,
                     stroke: exampleColor,
-                    dashStyle: '2 2' // 虚线样式
+                    dashstyle: '2 2' // 虚线样式
                 },
                 isTarget: true,
                 beforeDrop: function (params) {

@@ -1,0 +1,72 @@
+.demo {
+    /* for IE10+ touch devices */
+    touch-action:none;
+}
+
+/** JSPLUMB ARTEFACTS **/
+.jtk-connector {
+    z-index:1;
+}
+
+/** COMMON ELEMENT PROPERTIES **/
+.shape {
+    z-index:2;
+    opacity:0.7;
+    position:absolute;
+    cursor:pointer;
+    text-align:center;
+    color:#333;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/** SHAPES **/
+
+[data-shape=Rectangle] {
+    width:210px;
+    height:70px;
+    left:380px;
+    top:505px;
+    background-image:url(./img/rectangle.png);
+}
+
+[data-shape=Ellipse] {
+    width:210px;
+    height:70px;
+    left:250px;
+    top:300px;
+    background-image:url(./img/ellipse.png);
+}
+
+[data-shape=Circle] {
+    width:150px;
+    height:150px;
+    left:100px;
+    top:60px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    background-image:url(./img/circle.png);
+}
+
+[data-shape=Triangle] {
+    width:150px;
+    height:150px;
+    background-image:url(./img/triangle.png);
+}
+
+._90[data-shape=Triangle] {
+    width:150px;
+    height:150px;
+    background-image:url(./img/triangle_90.png);
+}
+
+[data-shape=Diamond] {
+    width:100px; /* Jxiang改 */
+    height:100px; /* Jxiang改 */
+    left:550px;
+    top:150px;
+    background-image:url(./img/diamond.png);
+    background-size: cover; /* Jxiang改 */
+}
