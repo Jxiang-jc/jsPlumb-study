@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dynamic Anchors</title>
+    <!-- <link href="//fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet"> -->
+    <script src="./lib/jquery.min.js"></script>
+    <link href="./css/font-awesome.css" rel="stylesheet">
+    <link href="./css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/jsplumbtoolkit-defaults.css">
+    <link rel="stylesheet" href="./css/jsplumbtoolkit-demo.css">
+
+    <link rel="stylesheet" href="./app.css">
+</head>
+
+<body>
+    <div class="jtk-page-container">
+        <div class="jtk-container">
+            <div class="jtk-demo-main">
+                <!-- demo -->
+                <div class="jtk-demo-canvas canvas-wide dynamic-demo jtk-surface jtk-surface-nopan" id="canvas">
+                    <div class="window"id="dynamicWindow1">
+                        <strong style="width:20px; height:20px; color:blueviolet;border: 1px solid #ccc; text-align:center;" id="num1">1</strong><br /><br />
+                    </div>
+                    <div class="window" id="dynamicWindow2">
+                        <strong style="width:20px; height:20px; color:blueviolet;border: 1px solid #ccc; text-align:center;" id="num2" class="num">2</strong><br /><br />
+                    </div>
+                    <div class="window" id="dynamicWindow3">
+                        <strong>3</strong><br /><br />
+                    </div>
+                    <div class="window" id="dynamicWindow4">
+                        <strong>4</strong><br /><br />
+                    </div>
+                    <div class="window" id="dynamicWindow5">
+                        <strong>5</strong><br /><br />
+                    </div>
+                    <div class="window" id="dynamicWindow6">
+                        <strong>6</strong><br /><br />
+                    </div>
+                </div>
+                <!-- /demo -->
+            </div>
+            <div class="full-width-container">
+                <div class="container">
+                    <!-- explanation -->
+                    <div class="description">
+                        <h4>DYNAMIC ANCHORS</h4>
+                        <p>This is a demonstration of anchors that change position dependent on the location of the
+                            other element in a connection. Each Connection is decorated with a Diamond overlay, located
+                            halfway along the connector.</p>
+                        <p>You can drag new connections between Endpoints.</p>
+                        <p>Endpoints support an unlimited(无限制) number of Connections.</p>
+                    </div>
+                    <!-- /explanation -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./lib/jsplumb.js"></script>
+    <script src="./app.js"></script>
+</body>
+
+</html>

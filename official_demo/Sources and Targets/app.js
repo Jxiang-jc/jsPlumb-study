@@ -1,6 +1,6 @@
 jsPlumb.ready(function () {
     // list of possible anchor locations for the blue source element
-    var sourceAnchors = [
+    var sourceAnchors = [// 方位: 下 左 上 右
         [0, 1, 0, 1],
         [0.25, 1, 0, 1],
         [0.5, 1, 0, 1],
