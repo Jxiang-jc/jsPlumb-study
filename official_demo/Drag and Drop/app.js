@@ -2,7 +2,7 @@
 (function () {
     var listDiv = document.getElementById('list')
 
-    showConnectionInfo = function (s) {
+        showConnectionInfo = function (s) {
             listDiv.innerHTML = s
             listDiv.style.display = 'block'
         },

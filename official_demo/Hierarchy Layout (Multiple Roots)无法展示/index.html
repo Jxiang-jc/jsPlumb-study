@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <!-- <link rel="shortcut icon" href="/img/favicon.ico"> -->
+    <script src="./lib/jquery.min.js"></script>
+    <title>jsPlumb Toolkit - build Flowcharts, Diagrams and connectivity based applications fast</title>
+    <!-- <link href="//fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet"> -->
+    <link href="./css/font-awesome.css" rel="stylesheet">
+    <link href="./css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/jsplumbtoolkit-defaults.css">
+    <link rel="stylesheet" href="./css/jsplumbtoolkit-demo.css">
+
+    <!-- <link rel="stylesheet" href="./app.css"> -->
+</head>
+
+<body class="jtk-bootstrap jtk-bootstrap-wide">
+
+    <div class="jtk-page-container">
+        <div class="jtk-container">
+
+            <div class="jtk-demo-main" id="jtk-demo-multiple-hierarchy">
+
+                <!-- this is the main drawing area -->
+                <div class="jtk-demo-canvas canvas-wide">
+
+                    <div class="controls">
+                        <i class="fa fa-arrows selected-mode" mode="pan" title="Pan Mode"></i>
+                        <i class="fa fa-pencil" mode="select" title="Select Mode"></i>
+                        <i class="fa fa-home" reset title="Zoom To Fit"></i>
+                    </div>
+
+                    <!-- miniview -->
+                    <div class="miniview"></div>
+                </div>
+
+                <div class="description">
+                    <p>
+                        This is a demonstration of the hierarchical(分层) layout. In this page, the layout is oriented(定向)
+                        vertically,
+                        but it can also be oriented horizontally. The layout uses the Walker algorithm(沃克算法, 目测是一个可以随机生成节点位置的算法) to position
+                        nodes.
+                    </p>
+                    <ul>
+                        <li>Click the + button on a node to add a new child</li>
+                        <li>Click the X button on a node to delete. It and all of its descendants will be deleted.</li>
+                        <li>Click the 'Pencil' icon to enter 'select' mode, then select several nodes. Click the canvas
+                            to exit.</li>
+                        <li>Click the 'Home' icon to zoom out and see all the nodes.</li>
+                    </ul>
+                </div>
+
+                <!-- the current dataset -->
+                <div class="jtk-demo-dataset"></div>
+            </div>
+
+            <!-- /content -->
+            <script src="./js/jsplumbtoolkit.js"></script>
+            <script src="./js/syntax-highlighter.js"></script>
+
+            <!-- demo -->
+            <script src="./js/demo-support.js"></script>
+            <script src="./app.js"></script>
+            <!-- /demo -->
+
+        </div>
+    </div>
+
+</body>
+
+</html>
